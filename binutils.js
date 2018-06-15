@@ -55,6 +55,17 @@ BinaryReader.prototype = {
         return s_Val;
     },
 
+    ReadUInt64: function() {
+        if (this.ByteBuffer.length < 8) {
+            return 0;
+        }
+
+        var s_Val = (this.Endianness == 'little') ? this.ByteBuffer.readUInt32LE(0) : this.ByteBuffer.readUInt32BE(0);
+        this.ByteBuffer = this.ByteBuffer.slice(8);
+        this.Position += 8;
+        return s_Val;
+    },
+
     ReadInt8: function() {
         if (this.ByteBuffer.length < 1) {
             return 0;
@@ -85,6 +96,17 @@ BinaryReader.prototype = {
         var s_Val = (this.Endianness == 'little') ? this.ByteBuffer.readInt32LE(0) : this.ByteBuffer.readInt32BE(0);
         this.ByteBuffer = this.ByteBuffer.slice(4);
         this.Position += 4;
+        return s_Val;
+    },
+
+    ReadInt64: function() {
+        if (this.ByteBuffer.length < 8) {
+            return 0;
+        }
+
+        var s_Val = (this.Endianness == 'little') ? this.ByteBuffer.readInt32LE(0) : this.ByteBuffer.readInt32BE(0);
+        this.ByteBuffer = this.ByteBuffer.slice(8);
+        this.Position += 8;
         return s_Val;
     },
 
@@ -171,6 +193,17 @@ BinaryWriter.prototype = {
         this.ByteBuffer = Buffer.concat([this.ByteBuffer, s_TempBuffer], this.Length);
     },
 
+    WriteUInt64: function(p_Value) {
+        var s_TempBuffer = new Buffer(8);
+        if (this.Endianness == 'little') {
+            s_TempBuffer.writeUInt32LE(p_Value, 0);
+        } else {
+            s_TempBuffer.writeUInt32BE(p_Value, 0);
+        }
+        this.Length += 8;
+        this.ByteBuffer = Buffer.concat([this.ByteBuffer, s_TempBuffer], this.Length);
+    },
+
     WriteInt8: function(p_Value) {
         var s_TempBuffer = new Buffer(1);
         s_TempBuffer.writeInt8(p_Value, 0);
@@ -197,6 +230,17 @@ BinaryWriter.prototype = {
             s_TempBuffer.writeInt32BE(p_Value, 0);
         }
         this.Length += 4;
+        this.ByteBuffer = Buffer.concat([this.ByteBuffer, s_TempBuffer], this.Length);
+    },
+
+    WriteInt64: function(p_Value) {
+        var s_TempBuffer = new Buffer(8);
+        if (this.Endianness == 'little') {
+            s_TempBuffer.writeInt32LE(p_Value, 0);
+        } else {
+            s_TempBuffer.writeInt32BE(p_Value, 0);
+        }
+        this.Length += 8;
         this.ByteBuffer = Buffer.concat([this.ByteBuffer, s_TempBuffer], this.Length);
     },
 
