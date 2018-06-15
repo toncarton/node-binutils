@@ -11,11 +11,11 @@ You can install this package either by using npm or by downloading the source fr
 
 To install using npm open your terminal (or command line), make sure you're in your application directory and execute the following command:
 
-    npm install binutils
+    npm install binutils64
     
 You can then start using the package by requiring it from your application as such:
 
-    var binutils = require('binutils');
+    var binutils = require('binutils64');
     
 BinaryReader Class
 ------------------
